@@ -1,3 +1,9 @@
+if (typeof globalThis.DOMMatrix === "undefined") {
+  globalThis.DOMMatrix = class DOMMatrix {
+    constructor() {}
+  };
+}
+
 import connectDB from "../finget-backend/config/db.js";
 import backendApp from "../finget-backend/app.js";
 import dotenv from "dotenv";

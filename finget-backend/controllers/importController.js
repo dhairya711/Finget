@@ -3,7 +3,6 @@ const User = require("../models/User");
 const { parseBlock } = require("../services/smsParser");
 const { extractFromScreenshot } = require("../services/screenshotExtractor");
 const { extractFromPdfText } = require("../services/pdfExtractor");
-const pdfParse = require("pdf-parse");
 const { annotateDuplicates } = require("../services/dedupeService");
 const { suggestCategory, learnFromCommit } = require("../services/categoryLearner");
 const {
