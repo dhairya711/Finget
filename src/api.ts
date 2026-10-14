@@ -4,7 +4,11 @@
    personal and Friends mode can never silently read each other.
    ============================================================ */
 
-export const API_ORIGIN = import.meta.env.VITE_API_URL || 'http://localhost:5001';
+export const API_ORIGIN =
+  import.meta.env.VITE_API_URL ||
+  (typeof window !== 'undefined' && window.location.port !== '5173'
+    ? window.location.origin
+    : 'http://localhost:5001');
 const API = `${API_ORIGIN}/api`;
 
 export type Scope = 'user' | 'group';

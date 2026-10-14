@@ -1,6 +1,6 @@
 const { previewByToken } = require("../services/tripPreviewService");
 
-const APP_BASE_URL = process.env.APP_BASE_URL || "http://localhost:5173";
+const APP_BASE_URL = process.env.APP_URL || process.env.APP_BASE_URL || "http://localhost:5173";
 
 /** Minimal HTML escaping — every value below is interpolated into markup. */
 function esc(value) {

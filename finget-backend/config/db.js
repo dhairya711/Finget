@@ -1,27 +1,48 @@
 const mongoose = require("mongoose");
 
+let cached = global._mongooseConn;
+if (!cached) {
+  cached = global._mongooseConn = { conn: null, promise: null };
+}
+
 const connectDB = async () => {
-  try {
-    const uri = process.env.MONGO_URI || "mongodb://localhost:27017/finget";
-    console.log(`Connecting to MongoDB at: ${uri}...`);
-    await mongoose.connect(uri, { serverSelectionTimeoutMS: 2000 });
-    console.log("MongoDB Connected");
-  } catch (err) {
-    console.log("Local MongoDB not detected. Starting in-memory MongoDB server as fallback...");
-    try {
-      const { MongoMemoryServer } = require("mongodb-memory-server");
-      const mongoServer = await MongoMemoryServer.create();
-      const mongoUri = mongoServer.getUri();
-      console.log(`In-memory MongoDB started at: ${mongoUri}`);
-      await mongoose.connect(mongoUri);
-      console.log("Connected to in-memory MongoDB");
-    } catch (fallbackErr) {
-      console.error("Failed to start or connect to in-memory MongoDB:");
-      console.error(fallbackErr);
-      process.exit(1);
-    }
+  if (cached.conn && mongoose.connection.readyState >= 1) {
+    return cached.conn;
   }
+
+  const uri = process.env.MONGO_URI || "mongodb://localhost:27017/finget";
+
+  if (!cached.promise) {
+    cached.promise = mongoose
+      .connect(uri, { serverSelectionTimeoutMS: 7000 })
+      .then((m) => {
+        console.log("MongoDB Connected");
+        return m;
+      })
+      .catch(async (err) => {
+        cached.promise = null;
+        if (process.env.NODE_ENV === "production" || process.env.VERCEL) {
+          console.error("MongoDB connection failed in production:", err.message);
+          throw err;
+        }
+        console.log("Local MongoDB not detected. Attempting in-memory fallback...");
+        try {
+          const { MongoMemoryServer } = require("mongodb-memory-server");
+          const mongoServer = await MongoMemoryServer.create();
+          const mongoUri = mongoServer.getUri();
+          console.log(`In-memory MongoDB started at: ${mongoUri}`);
+          return await mongoose.connect(mongoUri);
+        } catch (fallbackErr) {
+          console.error("Failed to start in-memory MongoDB:", fallbackErr.message);
+          throw err;
+        }
+      });
+  }
+
+  cached.conn = await cached.promise;
+  return cached.conn;
 };
 
 module.exports = connectDB;
+
 

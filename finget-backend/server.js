@@ -62,26 +62,30 @@ io.on("connection", (socket) => {
 
 const PORT = process.env.PORT || 5001;
 
-server.listen(PORT, () => {
-  console.log(`Server running on ${PORT}`);
-  if (isAiConfigured()) {
-    console.log(`AI provider: ${PROVIDER_NAME} (${MODEL})`);
-  } else {
-    console.log("Note: no GROQ_API_KEY set — AI coach and AI insights run in degraded mode.");
-  }
-  console.log(`Paywall: ${isPaywallEnabled() ? "ENABLED" : "disabled (all gates open)"}`);
+if (require.main === module) {
+  server.listen(PORT, () => {
+    console.log(`Server running on ${PORT}`);
+    if (isAiConfigured()) {
+      console.log(`AI provider: ${PROVIDER_NAME} (${MODEL})`);
+    } else {
+      console.log("Note: no GROQ_API_KEY set — AI coach and AI insights run in degraded mode.");
+    }
+    console.log(`Paywall: ${isPaywallEnabled() ? "ENABLED" : "disabled (all gates open)"}`);
 
-  // Lives here rather than in app.js so supertest can mount the app without
-  // starting timers.
-  startVaultSweep();
-  console.log("Vault sweep: running every 15 minutes");
+    // Lives here rather than in app.js so supertest can mount the app without
+    // starting timers.
+    startVaultSweep();
+    console.log("Vault sweep: running every 15 minutes");
 
-  startReminderSweep();
-  console.log("Silent Collector: running hourly");
+    startReminderSweep();
+    console.log("Silent Collector: running hourly");
 
-  const { startAiCreditSweep } = require("./jobs/aiCreditSweep");
-  startAiCreditSweep();
-  console.log("AI Credit Engine: sweep running hourly");
+    const { startAiCreditSweep } = require("./jobs/aiCreditSweep");
+    startAiCreditSweep();
+    console.log("AI Credit Engine: sweep running hourly");
 
-  if (startPushSweep()) console.log("Web Push: sweeping every 15 minutes");
-});
+    if (startPushSweep()) console.log("Web Push: sweeping every 15 minutes");
+  });
+}
+
+module.exports = app;

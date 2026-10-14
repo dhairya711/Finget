@@ -9,7 +9,9 @@ const { createCard, RedactionError } = require("../services/shareCardService");
 const { isRendererAvailable } = require("../services/shareRenderer");
 const { getClient, isAiConfigured, MODEL } = require("../services/aiClient");
 
-const API_BASE_URL = process.env.API_BASE_URL || "http://localhost:5001";
+const API_BASE_URL =
+  process.env.API_BASE_URL ||
+  (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:5001");
 const publicUrl = (token) => `${API_BASE_URL}/s/${encodeURIComponent(token)}`;
 
 /**

@@ -2,8 +2,10 @@ const { readCard } = require("../services/shareCardService");
 const { renderCardPng, RendererUnavailableError } = require("../services/shareRenderer");
 const { describe, statLine, TRUST_LINE } = require("../services/shareCardCopy");
 
-const APP_BASE_URL = process.env.APP_BASE_URL || "http://localhost:5173";
-const API_BASE_URL = process.env.API_BASE_URL || "http://localhost:5001";
+const APP_BASE_URL = process.env.APP_URL || process.env.APP_BASE_URL || "http://localhost:5173";
+const API_BASE_URL =
+  process.env.API_BASE_URL ||
+  (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:5001");
 
 /** Minimal HTML escaping — every value below is interpolated into markup. */
 function esc(value) {

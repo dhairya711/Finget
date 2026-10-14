@@ -29,7 +29,13 @@ function createApp() {
         // No Origin header at all: curl, health checks, and — deliberately —
         // top-level browser navigations to /s/:token, which is a public page
         // rather than a cross-origin XHR. See the /s mount below.
-        if (!origin || allowedOrigins.includes(origin)) return callback(null, true);
+        if (
+          !origin ||
+          allowedOrigins.includes(origin) ||
+          (process.env.APP_URL && origin === process.env.APP_URL) ||
+          origin.endsWith(".vercel.app")
+        )
+          return callback(null, true);
 
         /**
          * The browser extension's service worker. Its requests already bypass

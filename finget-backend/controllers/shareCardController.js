@@ -6,7 +6,9 @@ const { translate } = require("../services/goalCurrencyService");
 const { ledgerFor } = require("../services/vaultService");
 const { toPaise, fromPaise } = require("../utils/money");
 
-const API_BASE_URL = process.env.API_BASE_URL || "http://localhost:5001";
+const API_BASE_URL =
+  process.env.API_BASE_URL ||
+  (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:5001");
 
 const publicUrl = (token) => `${API_BASE_URL}/s/${encodeURIComponent(token)}`;
 
