@@ -1,16 +1,8 @@
+require("dotenv").config();
 const path = require("path");
 
-// Ensure modules in finget-backend/node_modules are resolvable
-const backendNodeModules = path.resolve(__dirname, "../finget-backend/node_modules");
-if (!module.paths.includes(backendNodeModules)) {
-  module.paths.push(backendNodeModules);
-}
-
-try {
-  require("dotenv").config({ path: path.join(__dirname, "../finget-backend/.env") });
-} catch (e) {
-  // Ignore in production where environment variables are injected directly
-}
+// Load backend environment if local/fallback
+require("dotenv").config({ path: path.join(__dirname, "../finget-backend/.env") });
 
 const connectDB = require("../finget-backend/config/db");
 const { createApp } = require("../finget-backend/app");
