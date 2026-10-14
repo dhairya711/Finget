@@ -4,7 +4,9 @@ const jwt = require("jsonwebtoken");
 const { isValidUpiId } = require("../services/upiIntent");
 const { OAuth2Client } = require("google-auth-library");
 
-const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+const googleClient = new OAuth2Client(
+  process.env.GOOGLE_CLIENT_ID || "808930260947-19erhljcr9vctdtk6ca5vhtcjudhstqe.apps.googleusercontent.com"
+);
 
 
 const signToken = (user) =>
