@@ -1,15 +1,22 @@
-require("dotenv").config();
-const path = require("path");
+import { createRequire } from "module";
+import path from "path";
+import { fileURLToPath } from "url";
 
-// Load backend environment if local/fallback
-require("dotenv").config({ path: path.join(__dirname, "../finget-backend/.env") });
+const require = createRequire(import.meta.url);
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
+if (!process.env.MONGO_URI) {
+  try {
+    require("dotenv").config({ path: path.resolve(__dirname, "../finget-backend/.env") });
+  } catch (e) {}
+}
 
 const connectDB = require("../finget-backend/config/db");
 const { createApp } = require("../finget-backend/app");
 
 let app = null;
 
-module.exports = async (req, res) => {
+export default async function handler(req, res) {
   try {
     await connectDB();
     if (!app) {
@@ -17,7 +24,9 @@ module.exports = async (req, res) => {
     }
     return app(req, res);
   } catch (err) {
-    console.error("Vercel Serverless Function DB error:", err.message);
-    return res.status(500).json({ error: "Database connection failed", details: err.message });
+    console.error("Vercel Serverless Function error:", err);
+    res.statusCode = 500;
+    res.setHeader("Content-Type", "application/json");
+    res.end(JSON.stringify({ error: "Serverless function error", details: err.message }));
   }
-};
+}

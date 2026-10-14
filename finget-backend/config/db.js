@@ -14,28 +14,15 @@ const connectDB = async () => {
 
   if (!cached.promise) {
     cached.promise = mongoose
-      .connect(uri, { serverSelectionTimeoutMS: 7000 })
+      .connect(uri, { serverSelectionTimeoutMS: 5000 })
       .then((m) => {
         console.log("MongoDB Connected");
         return m;
       })
-      .catch(async (err) => {
+      .catch((err) => {
         cached.promise = null;
-        if (process.env.NODE_ENV === "production" || process.env.VERCEL) {
-          console.error("MongoDB connection failed in production:", err.message);
-          throw err;
-        }
-        console.log("Local MongoDB not detected. Attempting in-memory fallback...");
-        try {
-          const { MongoMemoryServer } = require("mongodb-memory-server");
-          const mongoServer = await MongoMemoryServer.create();
-          const mongoUri = mongoServer.getUri();
-          console.log(`In-memory MongoDB started at: ${mongoUri}`);
-          return await mongoose.connect(mongoUri);
-        } catch (fallbackErr) {
-          console.error("Failed to start in-memory MongoDB:", fallbackErr.message);
-          throw err;
-        }
+        console.error("MongoDB connection error:", err.message);
+        throw err;
       });
   }
 
@@ -44,5 +31,3 @@ const connectDB = async () => {
 };
 
 module.exports = connectDB;
-
-
