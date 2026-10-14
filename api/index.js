@@ -1,19 +1,14 @@
-import { createRequire } from "module";
-import path from "path";
-import { fileURLToPath } from "url";
-
-const require = createRequire(import.meta.url);
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
+import connectDB from "../finget-backend/config/db.js";
+import backendApp from "../finget-backend/app.js";
+import dotenv from "dotenv";
 
 if (!process.env.MONGO_URI) {
   try {
-    require("dotenv").config({ path: path.resolve(__dirname, "../finget-backend/.env") });
+    dotenv.config({ path: "./finget-backend/.env" });
   } catch (e) {}
 }
 
-const connectDB = require("../finget-backend/config/db");
-const { createApp } = require("../finget-backend/app");
-
+const { createApp } = backendApp;
 let app = null;
 
 export default async function handler(req, res) {
