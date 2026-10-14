@@ -10,7 +10,18 @@ const GOOGLE_CLIENT_ID =
     ? "808930260947-19erhljcr9vctdtk6ca5vhtcjudhstqe.apps.googleusercontent.com"
     : rawClientId;
 
-const googleClient = new OAuth2Client(GOOGLE_CLIENT_ID);
+const ALLOWED_GOOGLE_CLIENT_IDS = Array.from(
+  new Set(
+    [
+      GOOGLE_CLIENT_ID,
+      process.env.GOOGLE_CLIENT_ID,
+      "808930260947-19erhljcr9vctdtk6ca5vhtcjudhstqe.apps.googleusercontent.com",
+      "385087666392-0riab8cecgk2o3m61k824ot9e4jqsits.apps.googleusercontent.com",
+    ].filter(Boolean)
+  )
+);
+
+const googleClient = new OAuth2Client();
 
 
 const signToken = (user) =>
@@ -126,7 +137,7 @@ exports.googleAuth = async (req, res) => {
 
     const ticket = await googleClient.verifyIdToken({
       idToken: token,
-      audience: process.env.GOOGLE_CLIENT_ID,
+      audience: ALLOWED_GOOGLE_CLIENT_IDS,
     });
     const payload = ticket.getPayload();
     if (!payload || !payload.email) {
