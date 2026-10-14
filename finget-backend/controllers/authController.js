@@ -4,9 +4,13 @@ const jwt = require("jsonwebtoken");
 const { isValidUpiId } = require("../services/upiIntent");
 const { OAuth2Client } = require("google-auth-library");
 
-const googleClient = new OAuth2Client(
-  process.env.GOOGLE_CLIENT_ID || "808930260947-19erhljcr9vctdtk6ca5vhtcjudhstqe.apps.googleusercontent.com"
-);
+const rawClientId = process.env.GOOGLE_CLIENT_ID || "";
+const GOOGLE_CLIENT_ID =
+  rawClientId === "385087666392-0riab8cecgk2o3m61k824ot9e4jqsits.apps.googleusercontent.com" || !rawClientId
+    ? "808930260947-19erhljcr9vctdtk6ca5vhtcjudhstqe.apps.googleusercontent.com"
+    : rawClientId;
+
+const googleClient = new OAuth2Client(GOOGLE_CLIENT_ID);
 
 
 const signToken = (user) =>
