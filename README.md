@@ -1,5 +1,16 @@
 # Finget — the decision-first financial system 💸
 
+[![Live Production App](https://img.shields.io/badge/Live%20App-finget--ten.vercel.app-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://finget-ten.vercel.app/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![LinkedIn: Dhairya Dani](https://img.shields.io/badge/LinkedIn-Dhairya%20Dani-0077B5?logo=linkedin&logoColor=white)](https://linkedin.com/in/dhairya-dani07)
+
+---
+
+> 🚀 **Official Live Production URL:** [https://finget-ten.vercel.app/](https://finget-ten.vercel.app/)  
+> *Zero-configuration collaborative finance system hosted on Vercel with real-time Safe-to-Spend algorithms, AI Money Coach (SSE streaming), and multi-user Friends Mode.*
+
+---
+
 Most money apps tell you what you *already* spent. Finget answers the question you
 actually have in the shop: **can I afford this, right now, without hurting anything
 I care about?**
