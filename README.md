@@ -7,7 +7,6 @@
 <div align="center">
 
 [![Live Production App](https://img.shields.io/badge/Live%20App-finget--ten.vercel.app-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://finget-ten.vercel.app/)
-[![GitHub Repo](https://img.shields.io/badge/GitHub-dhairya711%2FFinget-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/dhairya711/Finget)
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-Dhairya%20Dani-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://linkedin.com/in/dhairya-dani07)
 
 [![React](https://img.shields.io/badge/React-18-61dafb.svg?logo=react&logoColor=black)](https://react.dev/)
@@ -167,8 +166,7 @@ graph TD
 ### Quick Start
 
 ```bash
-# 1. Clone repository
-git clone https://github.com/dhairya711/Finget.git
+# 1. Open project directory
 cd Finget
 
 # 2. Install dependencies (root + backend)
@@ -203,7 +201,6 @@ Finget is configured for zero-configuration full-stack deployment on **Vercel**:
 
 * **Architect & Developer:** **Dhairya Dani**
 * **LinkedIn:** [linkedin.com/in/dhairya-dani07](https://linkedin.com/in/dhairya-dani07)
-* **GitHub:** [@dhairya711](https://github.com/dhairya711)
 
 ---
 
